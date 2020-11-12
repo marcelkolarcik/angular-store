@@ -15,7 +15,7 @@ export class NavbarComponent implements OnInit {
   links = [
 
     {title: 'Shopping Cart', fragment: 'shopping-cart'},
-    {title: 'Products', fragment: 'product-table'},
+    {title: 'Products', fragment: ''},
 
 
   ];
@@ -29,6 +29,7 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    //localStorage.removeItem('cartId');
     this.subscription =
       this.auth.user$.subscribe(user => {
         // check if user is admin

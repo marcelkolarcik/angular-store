@@ -1,1 +1,18 @@
-<p>products works!</p>
+<h1>Main page</h1>
+<div class="row">
+  <div class="col-md-4">
+
+    <product-filter [category]="category"></product-filter>
+  </div>
+  <div class="col-md-8">
+    <div class="row">
+
+      <div class="card col-lg-3 col-md-4 col-sm-6 col-xs-6 p-0 mb-3" style="width: 18rem;" *ngFor="let p of filteredProducts">
+
+        <product-card [product]="p" [show-actions]="true" [shopping-cart]="cart"></product-card>
+
+      </div>
+
+    </div>
+  </div>
+</div>
