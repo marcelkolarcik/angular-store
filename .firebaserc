@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "angular-store-9407f": {
+      "hosting": {
+        "angular-store": [
+          "angular-store-9407f"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "staging": "angular-store-9407f"
+  }
+}

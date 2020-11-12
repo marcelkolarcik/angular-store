@@ -1,0 +1,25 @@
+<h1>Main page</h1>
+<div class="row">
+  <div class="col-md-4">
+    <ul class="list-group">
+ <li *ngFor="let c of categories$ | async" class="list-group-item"
+    [class.active]="category === c.id"
+     [routerLink]="['/']" [queryParams]="{category: c.id}">
+   {{ c.name}}</li>
+
+    </ul>
+
+  </div>
+  <div class="col-md-8">
+    <div class="row">
+    <div class="card col-md-6 p-0 " style="width: 18rem;" *ngFor="let p of filteredProducts">
+      <img [src]="p.imageUrl" class="card-img-top" alt="product image">
+      <div class="card-body">
+        <h5 class="card-title">{{ p.title }}</h5>
+        <p class="card-text">{{ p.price | currency:'EUR':true}}</p>
+        <p class="card-text">{{ p.category}}</p>
+      </div>
+    </div>
+      </div>
+  </div>
+</div>

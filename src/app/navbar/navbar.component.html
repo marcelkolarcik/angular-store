@@ -1,0 +1,88 @@
+<!--<ul ngbNav #nav="ngbNav" class="nav-tabs">-->
+<!--  <li ngbNavItem>-->
+<!--    <a ngbNavLink>First</a>-->
+<!--    <ng-template ngbNavContent>First content</ng-template>-->
+<!--  </li>-->
+<!--  <li ngbNavItem>-->
+<!--    <a ngbNavLink>Second</a>-->
+<!--    <ng-template ngbNavContent>Second content</ng-template>-->
+<!--  </li>-->
+<!--</ul>-->
+<!--<div [ngbNavOutlet]="nav"></div>-->
+
+<ul ngbNav #nav="ngbNav" class="nav-tabs">
+  <li routerLinkActive="active current" *ngFor="let link of links" ngbNavItem routerLink="{{link.fragment}}">
+    <a ngbNavLink>{{ link.title }}</a>
+  </li>
+
+  <li ngbNavItem routerLinkActive="active current">
+
+    <div ngbDropdown class="d-inline-block">
+      <a ngbNavLink id="dropdownBasic1" ngbDropdownToggle>Toggle dropdown</a>
+      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+        <button ngbDropdownItem>Action - 1</button>
+        <button ngbDropdownItem>Another Action</button>
+        <button ngbDropdownItem>Something else is here</button>
+      </div>
+    </div>
+
+  </li>
+
+</ul>
+
+
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
+  <a class="navbar-brand" routerLink="/">Seifex</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+          aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+    <ul ngbNav class="navbar-nav mr-auto">
+      <ng-template #anonymousUser>
+         <li ngbNavItem  routerLink="/login">
+
+          <a ngbNavLink>Login</a>
+      </li>
+      </ng-template>
+
+      <li routerLinkActive="active current" *ngFor="let link of links" ngbNavItem routerLink="{{link.fragment}}">
+        <a ngbNavLink>{{ link.title }}</a>
+      </li>
+
+      <li *ngIf="auth.user$ | async as user; else anonymousUser" ngbDropdown class="nav-item dropdown">
+        <a ngbDropdownToggle class="nav-link dropdown-toggle" id="dropdown01" data-toggle="dropdown"
+           aria-haspopup="true"
+           aria-expanded="false"
+        >{{user.displayName}} </a>
+        <div ngbDropdownMenu class="dropdown-menu" aria-labelledby="dropdown01">
+          <a class="dropdown-item" routerLink="/my/orders">My Orders</a>
+
+          <a *ngIf="isAdmin" class="dropdown-item" routerLink="/admin/orders">Manage Orders</a>
+          <a *ngIf="isAdmin" class="dropdown-item" routerLink="/admin/products">Manage Products</a>
+
+          <a   class="dropdown-item" (click)="logout()">Logout</a>
+        </div>
+      </li>
+    </ul>
+
+  </div>
+</nav>
+
+<!--<ul ngbNav [activeId]="route.fragment | async" class="nav-tabs">-->
+<!--  <li [ngbNavItem]="link.fragment" *ngFor="let link of links">-->
+<!--    <a ngbNavLink routerLink="{{link.fragment}}">{{ link.title }}</a>-->
+<!--  </li>-->
+
+
+<!--    <div ngbDropdown class="d-inline-block">-->
+<!--      <li  id="dropdownBasic2" ngbDropdownToggle>Toggle dropdown</li>-->
+<!--      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">-->
+<!--        <button ngbDropdownItem>Action - 1</button>-->
+<!--        <button ngbDropdownItem>Another Action</button>-->
+<!--        <button ngbDropdownItem>Something else is here</button>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--</ul>-->

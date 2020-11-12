@@ -1,0 +1,47 @@
+<h1>Manage the products</h1>
+<p>
+  <a routerLink="/admin/products/new" class="btn btn-info">New product</a>
+</p>
+
+<p>
+  <input type="text" class="form-control" placeholder="Search..." (keyup)="filter(query.value)" #query>
+</p>
+
+<table class="table table-bordered">
+  <thead>
+  <tr>
+    <th>Title</th>
+    <th>Price</th>
+    <th>Image</th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let p of filteredProducts">
+    <td>{{ p.title}}</td>
+    <td>{{ p.price}}</td>
+    <td><img class="img-preview" src="{{ p.imageUrl}}" alt="product image"></td>
+    <td><a [routerLink]="['/admin/products/', p.id]">edit</a></td>
+  </tr>
+  </tbody>
+
+</table>
+
+<ngx-datatable class="bootstrap"
+               [rows]="filteredProducts"
+               [columns]="columns"
+
+               [headerHeight]="50"
+               [footerHeight]="50"
+               rowHeight="auto"
+               [limit]="10">
+
+  <ngx-datatable-column name="Title"></ngx-datatable-column>
+  <ngx-datatable-column name="Price" headerClass="bg-secondary" [cellClass]="getCellClass"></ngx-datatable-column>
+  <ngx-datatable-column name="Category"></ngx-datatable-column>
+   <ngx-datatable-column name="imageUrl"></ngx-datatable-column>
+</ngx-datatable>
+
+
+
+
