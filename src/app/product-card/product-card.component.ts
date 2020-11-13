@@ -16,6 +16,7 @@ export class ProductCardComponent {
 
   // tslint:disable-next-line:no-input-rename
   @Input('shopping-cart') shoppingCart;
+  quantity: any;
 
   constructor(private cartService: ShoppingCartService) {
   }
@@ -26,8 +27,13 @@ export class ProductCardComponent {
 
   // tslint:disable-next-line:typedef
   getQuantity() {
-    if (!this.shoppingCart) { return 0; }
-    console.log('this.shoppingCart', this.shoppingCart);
-    return this.shoppingCart.quantity;
+
+    if (!this.shoppingCart) {return 0; }
+    this.shoppingCart.filter(item => {
+      if (item.id === this.product.id) {
+        this.quantity = item.quantity;
+      }
+    });
+    return this.quantity;
   }
 }

@@ -18,6 +18,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   public filteredProducts: any[];
   category: string;
   cart: any;
+  private cartSer: any;
 
 
   constructor(private productService: ProductService,
@@ -46,8 +47,10 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit(): Promise<void> {
-    this.cart  = await this.shoppingCartService.getCart();
-    console.log('this,cart', this.shoppingCartService.getCart());
+    this.cartSer  = await this.shoppingCartService.getCart();
+    this.cartSer.subscribe(items => {
+      this.cart  = items;
+    });
 
   }
 

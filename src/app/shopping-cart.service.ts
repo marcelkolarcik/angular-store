@@ -1,17 +1,19 @@
 import {Injectable, OnDestroy} from '@angular/core';
-import {AngularFirestore, AngularFirestoreDocument} from "@angular/fire/firestore";
+import {AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument} from "@angular/fire/firestore";
 import {Product} from "./models/product";
-import {Subscription} from "rxjs";
-import firebase from "firebase";
+import {Observable, Subscription} from "rxjs";
+import {map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ShoppingCartService implements OnDestroy {
   private cartDoc: AngularFirestoreDocument<Product>;
-  cart;
+  private cart;
   product;
   subscription: Subscription;
+  private productsCollection: AngularFirestoreCollection;
+  products: Observable<any>;
 
   constructor(private afs: AngularFirestore) {
   }
@@ -26,25 +28,19 @@ export class ShoppingCartService implements OnDestroy {
   // tslint:disable-next-line:typedef
   async getCart() {
     const cartId = await this.getOrCreateCartId();
-    this.afs.doc('shopping-carts/' + cartId).ref.get().then(cart => {
 
-      console.log('cart : ', cart.data());
-    });
+    this.productsCollection = this.afs.collection<Product>('shopping-carts/' + cartId + '/items/');
+    // .snapshotChanges() returns a DocumentChangeAction[], which contains
+    // a lot of information about "what happened" with each change. If you want to
+    // get the data and the id use the map operator.
 
-    // return this.cart;
-
-    const snapshot = await firebase.firestore()
-      .collection('shopping-carts')
-      .doc(cartId)
-      .collection('items')
-      .get();
-
-    snapshot.forEach(doc => {
-      console.log('hello', doc.data(), doc.id);
-      return {data: doc.data(), id: doc.id};
-    });
-
-   //  return 7;
+    return this.productsCollection.snapshotChanges().pipe(
+      map(actions => actions.map(a => {
+        const data = a.payload.doc.data();
+        const id = a.payload.doc.id;
+        return {id, ...data};
+      }))
+    );
 
 
   }
