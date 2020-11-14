@@ -1,8 +1,8 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {AuthService} from "../auth.service";
-import firebase from "firebase";
 import {Subscription} from "rxjs";
 import {AngularFirestore} from "@angular/fire/firestore";
+import {ShoppingCartService} from "../shopping-cart.service";
 
 
 @Component({
@@ -12,24 +12,25 @@ import {AngularFirestore} from "@angular/fire/firestore";
 })
 export class NavbarComponent implements OnInit {
 
-  links = [
-
-    {title: 'Shopping Cart', fragment: 'shopping-cart'},
-    {title: 'Products', fragment: ''},
-
-
-  ];
   isAdmin: boolean;
   subscription: Subscription;
+  shoppingCartItemsCount;
+  cart$;
 
-  constructor(public auth: AuthService, private afs: AngularFirestore) { }
+  constructor(public auth: AuthService,
+              private afs: AngularFirestore,
+              private shoppingCartService: ShoppingCartService) {
+  }
 
   logout(): void {
     this.auth.logout();
   }
 
-  ngOnInit(): void {
-    //localStorage.removeItem('cartId');
+  // tslint:disable-next-line:typedef
+  async ngOnInit() {
+
+
+    // localStorage.removeItem('cartId');
     this.subscription =
       this.auth.user$.subscribe(user => {
         // check if user is admin
@@ -43,6 +44,23 @@ export class NavbarComponent implements OnInit {
 
 
       });
+
+
+    this.cart$ = await this.shoppingCartService.getCart();
+    // getting total quantity of products
+
+    this.cart$.subscribe(items => {
+        this.shoppingCartItemsCount = 0;
+
+        items.map(item => {
+
+          this.shoppingCartItemsCount += item.quantity;
+
+
+        });
+      }
+    )
+    ;
   }
 
   // ngOnDestroy(): void {

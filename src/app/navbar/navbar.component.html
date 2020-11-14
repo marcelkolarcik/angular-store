@@ -1,35 +1,3 @@
-<!--<ul ngbNav #nav="ngbNav" class="nav-tabs">-->
-<!--  <li ngbNavItem>-->
-<!--    <a ngbNavLink>First</a>-->
-<!--    <ng-template ngbNavContent>First content</ng-template>-->
-<!--  </li>-->
-<!--  <li ngbNavItem>-->
-<!--    <a ngbNavLink>Second</a>-->
-<!--    <ng-template ngbNavContent>Second content</ng-template>-->
-<!--  </li>-->
-<!--</ul>-->
-<!--<div [ngbNavOutlet]="nav"></div>-->
-
-<ul ngbNav #nav="ngbNav" class="nav-tabs">
-  <li routerLinkActive="active current" *ngFor="let link of links" ngbNavItem routerLink="{{link.fragment}}">
-    <a ngbNavLink>{{ link.title }}</a>
-  </li>
-
-  <li ngbNavItem routerLinkActive="active current">
-
-    <div ngbDropdown class="d-inline-block">
-      <a ngbNavLink id="dropdownBasic1" ngbDropdownToggle>Toggle dropdown</a>
-      <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
-        <button ngbDropdownItem>Action - 1</button>
-        <button ngbDropdownItem>Another Action</button>
-        <button ngbDropdownItem>Something else is here</button>
-      </div>
-    </div>
-
-  </li>
-
-</ul>
-
 
 <nav class="navbar navbar-expand-md navbar-light bg-light fixed-top">
   <a class="navbar-brand" routerLink="/">Seifex</a>
@@ -47,8 +15,13 @@
       </li>
       </ng-template>
 
-      <li routerLinkActive="active current" *ngFor="let link of links" ngbNavItem routerLink="{{link.fragment}}">
-        <a ngbNavLink>{{ link.title }}</a>
+
+       <li routerLinkActive="active current"  ngbNavItem routerLink="products">
+        <a ngbNavLink>Products</a>
+      </li>
+       <li routerLinkActive="active current"  ngbNavItem routerLink="shopping-cart">
+        <a ngbNavLink>Shopping Cart  <span class="badge badge-warning pill">{{shoppingCartItemsCount}}</span></a>
+
       </li>
 
       <li *ngIf="auth.user$ | async as user; else anonymousUser" ngbDropdown class="nav-item dropdown">

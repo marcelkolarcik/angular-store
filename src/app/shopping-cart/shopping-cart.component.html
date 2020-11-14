@@ -1,1 +1,40 @@
-<p>shopping-cart works!</p>
+<h1>Shopping cart</h1>
+<ng-container *ngIf="cart$ | async as cart">
+  <p>
+   You have {{ shoppingCartItemsCount }} items in your cart .
+  </p>
+
+  <table class="table table-bordered">
+    <thead>
+    <tr>
+      <th>Product</th>
+      <th>Quantity</th>
+      <th>Unit price</th>
+      <th>Sub total</th>
+    </tr>
+    </thead>
+    <tbody>
+
+    <tr *ngFor="let product of cart">
+      <td *ngIf="product.quantity > 0">{{ product.product.title }}</td>
+       <td *ngIf="product.quantity > 0">
+          <product-quantity [product]="product.product" [shopping-cart]="quantities"></product-quantity>
+       </td>
+       <td *ngIf="product.quantity > 0">{{ product.product.price }}</td>
+      <td *ngIf="product.quantity > 0">{{ product.quantity * product.product.price  | currency:'EUR' : 'symbol-narrow'}}</td>
+    </tr>
+
+    </tbody>
+    <tfoot>
+    <tr>
+      <td></td>
+      <td></td>
+      <td>Total price : </td>
+      <td>{{ totalPrice | currency:'EUR' : 'symbol-narrow'}}</td>
+    </tr>
+    </tfoot>
+  </table>
+  <button
+    (click)="clearCart()"
+    class="btn btn-danger btn-sm">Clear Shopping Cart</button>
+</ng-container>

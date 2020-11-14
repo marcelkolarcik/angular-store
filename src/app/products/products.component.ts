@@ -14,11 +14,13 @@ export class ProductsComponent implements OnInit, OnDestroy {
 
   private subscription: Subscription;
   private subscription2: Subscription;
+   private subscription3: Subscription;
   public products: any[];
   public filteredProducts: any[];
   category: string;
   cart: any;
   private cartSer: any;
+  private quantities: [] = [];
 
 
   constructor(private productService: ProductService,
@@ -47,9 +49,14 @@ export class ProductsComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit(): Promise<void> {
+    // localStorage.removeItem('cartId');
     this.cartSer  = await this.shoppingCartService.getCart();
-    this.cartSer.subscribe(items => {
-      this.cart  = items;
+    this.subscription3 = this.cartSer.subscribe(items => {
+      items.map(item => { // @ts-ignore
+        this.quantities[item.id] = item.quantity;
+      });
+      this.cart  = this.quantities;
+
     });
 
   }
@@ -57,6 +64,7 @@ export class ProductsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
     this.subscription2.unsubscribe();
+    this.subscription3.unsubscribe();
   }
 
 }
