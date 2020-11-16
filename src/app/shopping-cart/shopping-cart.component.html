@@ -7,21 +7,25 @@
   <table class="table table-bordered">
     <thead>
     <tr>
+       <th>Image</th>
       <th>Product</th>
-      <th>Quantity</th>
-      <th>Unit price</th>
-      <th>Sub total</th>
+      <th class="text-center" >Quantity</th>
+      <th  class="text-right">Unit price</th>
+      <th class="text-right">Sub total</th>
     </tr>
     </thead>
     <tbody>
 
     <tr *ngFor="let product of cart">
-      <td *ngIf="product.quantity > 0">{{ product.product.title }}</td>
-       <td *ngIf="product.quantity > 0">
+      <td *ngIf="product.quantity > 0"><div class="thumbnail" [style.backgroundImage]="'url(' + product.product.imageUrl + ')'"></div></td>
+      <td *ngIf="product.quantity > 0">
+
+        {{ product.product.title }}</td>
+       <td class="text-center" *ngIf="product.quantity > 0">
           <product-quantity [product]="product.product" [shopping-cart]="quantities"></product-quantity>
        </td>
-       <td *ngIf="product.quantity > 0">{{ product.product.price }}</td>
-      <td *ngIf="product.quantity > 0">{{ product.quantity * product.product.price  | currency:'EUR' : 'symbol-narrow'}}</td>
+       <td class="text-right" *ngIf="product.quantity > 0">{{ product.product.price   | currency:'EUR' : 'symbol-narrow'}}</td>
+      <td class="text-right" *ngIf="product.quantity > 0">{{ product.productTotal  | currency:'EUR' : 'symbol-narrow'}}</td>
     </tr>
 
     </tbody>
@@ -29,12 +33,14 @@
     <tr>
       <td></td>
       <td></td>
+        <td></td>
       <td>Total price : </td>
-      <td>{{ totalPrice | currency:'EUR' : 'symbol-narrow'}}</td>
+      <td class="text-right">{{ totalPrice | currency:'EUR' : 'symbol-narrow'}}</td>
     </tr>
     </tfoot>
   </table>
   <button
     (click)="clearCart()"
     class="btn btn-danger btn-sm">Clear Shopping Cart</button>
+  <button class="btn btn-sm btn-primary float-right" routerLink="check-out">Checkout</button>
 </ng-container>

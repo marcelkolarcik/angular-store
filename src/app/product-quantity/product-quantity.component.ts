@@ -20,16 +20,15 @@ export class ProductQuantityComponent  {
   }
 
   addToCard(): void {
-    this.cartService.adjustCart(this.product, 'add');
+    this.cartService.adjustCart(this.product, 1);
   }
   removeFromCart(): void {
-    this.cartService.adjustCart(this.product, 'remove' );
+    this.cartService.adjustCart(this.product, -1 );
   }
 
   // tslint:disable-next-line:typedef
   getQuantity() {
-
-    return  this.shoppingCart ? this.shoppingCart[this.product.id] :  0 ;
+    return  this.shoppingCart[this.product.id] ? this.shoppingCart[this.product.id] :  0 ;
   }
 
 }

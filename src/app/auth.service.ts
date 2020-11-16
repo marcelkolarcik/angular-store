@@ -11,7 +11,7 @@ import {UserService} from "./user.service";
 })
 export class AuthService {
   user$: Observable<firebase.User>;
-
+  userId;
 
   constructor(private auth: AngularFireAuth,
               private route: ActivatedRoute,
@@ -54,10 +54,15 @@ export class AuthService {
   appUser$() {
     return this.user$.subscribe(user => {
       console.log('auth ', user.uid, this.userService.isAdmin(user.uid));
-      return  this.userService.isAdmin(user.uid);
+      return this.userService.isAdmin(user.uid);
 
 
     });
+  }
+
+  // tslint:disable-next-line:typedef
+  getUser$() {
+    return this.user$;
   }
 
 

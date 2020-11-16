@@ -1,5 +1,9 @@
-.card-img-top{
-  height: auto;
-  max-width: 18rem;
-  margin:0 auto;
+
+.product_image{
+  height: 100px;
+  width: auto;
+}
+.product_title{
+  height: 60px;
+
 }

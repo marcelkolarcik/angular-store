@@ -22,7 +22,7 @@ export class ProductCardComponent {
   }
 
   addToCard(): void {
-    this.cartService.adjustCart(this.product, 'add');
+    this.cartService.adjustCart(this.product, 1);
   }
   // tslint:disable-next-line:typedef
   getQuantity() {
