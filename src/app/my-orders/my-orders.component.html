@@ -1,1 +1,6 @@
 <p>my-orders works!</p>
+<div *ngIf="orders$ | async as orders">
+  <p *ngFor="let order of orders">
+    {{ order.customerName}} {{ order.id}}
+  </p>
+</div>

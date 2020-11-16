@@ -55,7 +55,7 @@ export class ShoppingCartService implements OnDestroy {
     const cartId = await this.getOrCreateCartId();
     const qry: firebase.firestore.QuerySnapshot = await this.afs.collection('shopping-carts/' + cartId + '/items/').ref.get();
     qry.forEach(doc => {
-      console.log(doc.get('product').id);
+      // console.log(doc.get('product').id);
       this.afs.doc<Product>('shopping-carts/' + cartId + '/items/' + doc.get('product').id).delete();
     });
 
@@ -91,13 +91,11 @@ export class ShoppingCartService implements OnDestroy {
 
     this.subscription2 = this.authService.getUser$().subscribe(user => {
       this.user = user;
-      this.afs.collection('users/' + this.user.uid + '/orders/').add({
-        order: {
-          customerName: customer.firstName,
-          customerEmail: customer.email,
-          order: purchasedProducts,
-          customerId: this.user.uid,
-        }
+      this.afs.collection('orders/').add({
+        customerName: customer.firstName,
+        customerEmail: customer.email,
+        order: purchasedProducts,
+        customerId: this.user.uid,
       });
     });
     await this.clearCart();
@@ -115,6 +113,7 @@ export class ShoppingCartService implements OnDestroy {
       {dateCreated: new Date().getTime()}
     );
   }
+
   // tslint:disable-next-line:typedef
   private async getOrCreateCartId(): Promise<string> {
 

@@ -84,10 +84,33 @@ export class UserService implements OnDestroy {
 
     });
     /*todo fix this admin guard*/
+    const userRef = firebase.firestore().collection("users").doc(uid);
 
+
+    // tslint:disable-next-line:prefer-const
+    let user;
+    // tslint:disable-next-line:only-arrow-functions typedef
+    userRef.get().then((doc) => {
+      if (doc.exists) {
+
+
+        user = doc.data();
+
+        console.log('userRef', user);
+        return user;
+
+
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+      }
+
+
+    }).catch((error) => {
+      console.log("Error getting document:", error);
+    });
     return true;
   }
-
 
 
 }
