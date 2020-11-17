@@ -44,73 +44,59 @@ export class UserService implements OnDestroy {
   get(uid: string) {
     // tslint:disable-next-line:prefer-const
     let userRef = firebase.firestore().collection("users").doc(uid);
-
-
     // tslint:disable-next-line:prefer-const
     let user;
     // tslint:disable-next-line:only-arrow-functions typedef
     userRef.get().then((doc) => {
       if (doc.exists) {
-
-
         user = doc.data();
-
-        console.log('userRef', user);
+        // console.log('userRef', user);
         return user;
 
-
       } else {
+        return false;
         // doc.data() will be undefined in this case
-        console.log("No such document!");
+        // console.log("No such document!");
       }
-
-
     }).catch((error) => {
-      console.log("Error getting document:", error);
+      return false;
+      // console.log("Error getting document:", error);
     });
 
   }
 
   // tslint:disable-next-line:typedef
-  isAdmin(uid: string) {
-    this.itemDoc = this.afs.doc<Item>('users/' + uid);
-    this.item = this.itemDoc.valueChanges();
+  async isAdmin() {
+    // console.log('user.service', firebase.auth().currentUser.uid);
+    if (!firebase.auth().currentUser) { return false; }
+    const user: firebase.firestore.DocumentSnapshot<firebase.firestore.DocumentData> =
+      await this.afs.doc('users/' + firebase.auth().currentUser.uid).ref.get();
+
+    return user.data().isAdmin;
 
 
-    this.item.subscribe(user => {
+    //   const userRef = firebase.firestore().collection("users").doc(uid);
+    //   // tslint:disable-next-line:prefer-const
+    //   let user;
+    //   // tslint:disable-next-line:only-arrow-functions typedef
+    //   userRef.get().then((doc) => {
+    //     if (doc.exists) {
+    //       user = doc.data();
+    //       console.log('isAdmin');
+    //       return user.isAdmin;
+    //     } else {
+    //       console.log('isNotAdmin');
+    //       return false;
+    //       // doc.data() will be undefined in this case
+    //       // console.log("No such document!");
+    //     }
+    //   }).catch((error) => {
+    //     console.log('isNotAdmin');
+    //     return false;
+    //     // console.log("Error getting document:", error);
+    //   });
+    //   console.log('user', user);
+    //
 
-      // console.log('isAdmin', this.userAdmin);
-      this.userAdmin = user['isAdmin'];
-
-    });
-    /*todo fix this admin guard*/
-    const userRef = firebase.firestore().collection("users").doc(uid);
-
-
-    // tslint:disable-next-line:prefer-const
-    let user;
-    // tslint:disable-next-line:only-arrow-functions typedef
-    userRef.get().then((doc) => {
-      if (doc.exists) {
-
-
-        user = doc.data();
-
-        console.log('userRef', user);
-        return user;
-
-
-      } else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
-      }
-
-
-    }).catch((error) => {
-      console.log("Error getting document:", error);
-    });
-    return true;
   }
-
-
 }

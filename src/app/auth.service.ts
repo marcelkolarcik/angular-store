@@ -51,14 +51,14 @@ export class AuthService {
   }
 
   // tslint:disable-next-line:typedef
-  appUser$() {
-    return this.user$.subscribe(user => {
-      console.log('auth ', user.uid, this.userService.isAdmin(user.uid));
-      return this.userService.isAdmin(user.uid);
-
-
-    });
-  }
+  // appUser$() {
+  //   return this.user$.subscribe(user => {
+  //     console.log('auth ', user.uid, this.userService.isAdmin(user.uid));
+  //     return this.userService.isAdmin(user.uid);
+  //
+  //
+  //   });
+  // }
 
   // tslint:disable-next-line:typedef
   getUser$() {

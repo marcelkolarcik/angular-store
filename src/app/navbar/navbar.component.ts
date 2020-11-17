@@ -3,6 +3,8 @@ import {AuthService} from "../auth.service";
 import {Subscription} from "rxjs";
 import {AngularFirestore} from "@angular/fire/firestore";
 import {ShoppingCartService} from "../shopping-cart.service";
+import {UserService} from "../user.service";
+import firebase from "firebase";
 
 
 @Component({
@@ -18,6 +20,7 @@ export class NavbarComponent implements OnInit {
   cart$;
 
   constructor(public auth: AuthService,
+              private userService: UserService,
               private afs: AngularFirestore,
               private shoppingCartService: ShoppingCartService) {
   }
@@ -29,7 +32,8 @@ export class NavbarComponent implements OnInit {
   // tslint:disable-next-line:typedef
   async ngOnInit() {
 
-
+   // console.log('isAdmin : ',await this.userService.isAdmin(firebase.auth().currentUser.uid));
+    // console.log('isAdmin : ', this.userService.getMyOrders());
     // localStorage.removeItem('cartId');
     this.subscription =
       this.auth.user$.subscribe(user => {

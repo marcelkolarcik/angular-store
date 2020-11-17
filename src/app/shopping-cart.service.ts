@@ -94,8 +94,10 @@ export class ShoppingCartService implements OnDestroy {
       this.afs.collection('orders/').add({
         customerName: customer.firstName,
         customerEmail: customer.email,
+         customerId: this.user.uid,
         order: purchasedProducts,
-        customerId: this.user.uid,
+        date: firebase.firestore.Timestamp.fromDate(new Date()),
+
       });
     });
     await this.clearCart();

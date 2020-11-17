@@ -1,6 +1,6 @@
 <p>my-orders works!</p>
 <div *ngIf="orders$ | async as orders">
   <p *ngFor="let order of orders">
-    {{ order.customerName}} {{ order.id}}
+    {{ order.customerName}} {{ order.id}} {{ order.date?.toDate() | date : 'y-M-d'}}
   </p>
 </div>

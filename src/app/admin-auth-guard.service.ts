@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
 import {CanActivate} from "@angular/router";
-import {AuthService} from "./auth.service";
-import {map} from "rxjs/operators";
 import {UserService} from "./user.service";
+import firebase from "firebase";
 
 
 @Injectable({
@@ -10,21 +9,12 @@ import {UserService} from "./user.service";
 })
 export class AdminAuthGuard implements CanActivate {
 
-  constructor(private auth: AuthService, private userService: UserService) {
+  constructor( private userService: UserService) {
   }
 
 
   // tslint:disable-next-line:typedef
-  // @ts-ignore
-  // tslint:disable-next-line:typedef
-  canActivate() {
-    return this.auth.user$.pipe(map(user => {
-
-      return this.userService.isAdmin(user.uid);
-
-
-    }));
-
-
+ async canActivate() {
+    return await this.userService.isAdmin();
   }
 }
